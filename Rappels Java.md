@@ -120,8 +120,149 @@ for(int i = 1; i <= 10; i++){ // On initialise i à 1 et s'il est inférieur ou 
 }
 ```
 ## Tableaux
+Afin de conserver des données qui ont un certain lien entre elles, on peut utiliser une structure de données qu'on appelle tableau. Les tableaux contiennent des données d'un seul et même type (que ce soit un type primitif ou une classe). Les tableaux sont dits statiques : leur taille doit être définie à la création du tableau.
+
+Dans la suite j'utiliserai des tableaux d'entiers (car c'est le type de tableaux le plus courant en 1A) mais gardez à l'esprit qu'un tableau peut contenir autre chose que des entiers.
+
 ### Tableaux 1D
+Un tableau à une dimension est une ligne.
+![Tableau 1D](/1D_array.jpeg)
+#### Créer un tableau 1D
+Afin de créer un tableau 1D, nous avons plusieurs solutions :
+```Java
+// On définit ce qu'il y a dans le tableau
+// La taille est calculée en fonction des donneés, ici les tableaux ont une taille de 4 car il y a 4 valeurs.
+int[] a = {0, 1, 2, 3};
+int a[] = {0, 1, 2, 3};
+
+// On créé un tableau vide de taille définie
+int[] a = new int[4];
+int a[] = new int[4];
+```
+#### Acceder aux données d'un tableau 1D
+Pour accéder aux données, il faut fournir la position de la donnée à laquelle on veut accéder :
+```Java
+int[] a = {0, 1, 2, 3};
+int b = a[0]; //Attention : Les tableaux commencent leur indexation à 0 donc a[0] accède à la première case ! Ici a[0] vaut 0
+int c = a[1]; //a[1] vaut 1
+int d = a[4]; //Erreur ! Attention : la taille du tableau est de 4 mais on commence l'indexation à 0 ! Donc la dernière case du tableau est bien a[taille-1] et non pas a[taille] !
+```
+
+On peut obtenir la taille d'un tableau 1D en récupérant son attribut length :
+```Java
+int[] a = {0, 1, 2, 3};
+int taille = a.length; // Ici taille vaut 4
+```
+#### Lire un tableau 1D
+Pour lire le contenu d'un tableau, nous sommes obligés de le parcourir :
+```Java
+// Définition du tableau
+int[] a = {0, 1, 2, 3, 4};
+// Parcours d'un tableau 1D
+for(int i = 0; i < a.length; i++){
+    // Effectuer des opérations avec les données du tableau
+    // Exemple : Afficher les valeurs
+    System.out.println(a[i]);
+}
+
+```
+#### Copier un tableau 1D
+Il arrive que vous ayez besoin de copier les données d'un tableau à l'autre. Avec des variables classiques on peut se contenter de faire .. ça :
+```Java
+int a = 2;
+int b = a; // b contient la valeur de a
+```
+
+Or avec les tableaux c'est plus compliqué. Sans rentrer dans les détails de la gestion mémoire, il n'est pas possible de copier un tableau comme on le ferait plus haut. Voici un exemple qui montre ce problème :
+```Java
+int[] a = {0, 1, 2, 3};
+int[] b = a;
+a[0] = -1;
+System.out.println(b[0]); // D'après vous qu'affiche cette ligne ? Si vous avez répondu -1, bravo ! En effet a et b sont deux variables qui pointent vers le même tableau en mémoire, et il n'y a eu aucune copie.
+```
+Pour copier un tableau, il faut parcourir le premier tableau, et pour chaque valeur, la copier dans le 2e tableau. Faites attention aux tailles de tableau. On ne peut copier l'intégralité d'un tableau dans un autre tableau de taille inférieure !
+```Java
+int a = {0, 1, 2, 3};
+int b = new int[4];
+// Copie du tableau a dans b
+for(int i = 0; i < a.length; i++){
+    b[i] = a[i];
+}
+a[0] = -1;
+System.out.println(b[0]); // Maintenant, qu'affiche cette ligne ? Si vous avez répondu 0 bravo ! En effet si on change a, b n'est pas impacté sachant que l'on a correctement copié les valeurs
+```
+
 ### Tableaux 2D
+Un tableau 2D est une grille de n lignes et m colonnes (n et m peuvent être égaux ou différents)
+![Tableau 2D](java-2d-array.jpg)
+#### Créer un tableau 2D
+Afin de créer un tableau 2D, nous avons plusieurs solutions :
+```Java
+// On définit ce qu'il y a dans le tableau
+// La taille est calculée en fonction des donneés, ici les tableaux ont une taille de 3x4 car il y a 3 lignes et 4 colonnes
+int[][] a = {{0, 1, 2, 3},
+             {4, 5, 6, 7},
+             {8, 9, 10, 11}};
+int a[][] = {{0, 1, 2, 3},
+             {4, 5, 6, 7},
+             {8, 9, 10, 11}};
+
+// On créé un tableau vide de taille définie
+// On donne d'abord le nombre de lignes puis le nombre de colonnes
+int[][] a = new int[3][4];
+int a[][] = new int[3][4];
+```
+#### Acceder aux données d'un tableau 2D
+Pour accéder aux données, il faut fournir la position de la donnée à laquelle on veut accéder :
+```Java
+int[][] a = {{0, 1, 2, 3},
+             {4, 5, 6, 7},
+             {8, 9, 10, 11}};
+int b = a[0][0]; //Première ligne, première colonne : a[0][0] = 0
+int c = a[1][2]; //Deuxième ligne, troisième colonne : a[1][2] = 6
+int d = a[4][5]; //Erreur ! Attention : la taille du tableau est de 3x4 mais on commence l'indexation à 0 ! Donc la dernière case du tableau est bien a[taille-1] et non pas a[taille] !
+```
+
+On peut obtenir la taille d'un tableau 1D en récupérant son attribut length pour le nombre de lignes, et l'attribut length de la première ligne pour le nombre de colonnes:
+```Java
+int[][] a = {{0, 1, 2, 3},
+             {4, 5, 6, 7},
+             {8, 9, 10, 11}};
+int nbLignes = a.length; // nbLignes vaut 3
+int nbColonnes = a[0].length; // nbColonnes vaut 4
+```
+#### Lire un tableau D
+Pour lire le contenu d'un tableau, nous sommes obligés de le parcourir. Sachant que c'est un tableau en 2 dimensions, il nous faut 2 boucles.
+```Java
+// Définition du tableau
+int[][] a = {{0, 1, 2, 3},
+             {4, 5, 6, 7},
+             {8, 9, 10, 11}};
+// Parcours d'un tableau 1D
+for(int i = 0; i < a.length; i++){
+    for(int j = 0; j < a.length[0]; j++){
+        // Effectuer des opérations avec les données du tableau
+        // Exemple : Afficher les valeurs
+        System.out.println(a[i][j]);
+    }
+    System.out.println(); // Faire un saut de ligne à la fin de chaque ligne
+}
+
+```
+#### Copier un tableau 2D
+La copie d'un tableau 2D est semblable à celle d'un tableau 1D. Il faut cependant toujours respecter l'imperatif de taille (tableau qui sert de base doit être plus petit en ligne ET en colonnes que la copie)
+```Java
+int[][] a = {{0, 1, 2, 3},
+             {4, 5, 6, 7},
+             {8, 9, 10, 11}};
+int b = new int[3][4];
+// Copie du tableau a dans b
+for(int i = 0; i < a.length; i++){
+    for(int j = 0; j < a.length[0]; j++){
+        b[i][j] = a[i][j];
+    }
+}
+```
 ## Orienté Objet
 ### Qu'est-ce qu'un objet ?
 ### Attributs
